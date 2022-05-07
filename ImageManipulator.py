@@ -12,42 +12,163 @@ It'll help prepare us for the next project which will be usinging those altered 
 
 
 """
-from PIL import Image
-import os, sys
+from PIL import Image, ImageFilter
+import os, sys, Name
+x200 = (200, 200)
+x400 = (400, 400)
+x600 = (600, 600)
 
+#The function that calls all functions HAHAHH 
+#Basically seeing what they want to do or if they want to quit
+def Modes():
+    while True:
+        Mode = input("would you like to edit image all at once(1), one specific thing(2) or (q) to quit: ")
+        if Mode == "1":
+            Everything()
+            break
+        elif Mode == "2":
+            Options
+            break
+        elif Mode == "q":
+            quit()
+        else:
+            print("invalid input")
+
+
+#Me trying the bonus
+def Everything():
+    while True:
+        EveryOption = input("size, type, rotation, color, transparency: ")
+        if EveryOption == "size":
+            while True:
+                try:
+                    SizeChoice = int(input("Between 200X200(2), 400X400(4) and 600X600(6), what size you want: "))
+                    break
+                except ValueError:
+                    print("invalid input")
+            Image = Image.open(f"dragon {UserChoice}.jpg")
+            if SizeChoice == 2:
+                Image.thumbnail(x200)
+                break
+            elif SizeChoice == 4:
+                Image.thumbnail(x400)
+                break
+            elif SizeChoice == 6:
+                Image.thumbnail(x600)
+                break
+            else:
+                print("Invalid input")
+        elif EveryOption == "type":
+            Image = Image.open(f"dragon {UserChoice}.jpg")
+            fn, fext = os.path.splitext(f"dragon {UserChoice}.jpg")
+        elif EveryOption == "rotation":
+            Rotation()
+        elif EveryOption == "color":
+            Color()
+        elif EveryOption == "transparency":
+            Transparency()
+        elif EveryOption == "n":
+            break
+        else:
+            print("Invalid input")
+
+#All the options to alter images with functions of each options to make it more organized
+def Options():
+    while True:
+        Change = input("What would you like to change anything about this image (size, type, rotation, color, transparency) or (n) for nothing: ").lower()
+        if Change == "size":
+            Size()
+        elif Change == "type":
+            Type()
+        elif Change == "rotation":
+            Rotation()
+        elif Change == "color":
+            Color()
+        elif Change == "transparency":
+            Transparency()
+        elif Change == "n":
+            break
+        else:
+            print("Invalid input")
+
+#changine the size
 def Size():
-    pass
-def Type(f):
-    for f in os.listdir("."):
-        if f.endswith(".jpg"):
-            i = Image.open(f)
-            fn, fext = os.path.splitext(f)
-            i.save("png folder/{}.png".format(fn))
+    while True:
+        while True:
+#making sure its a number
+            try:
+                SizeChoice = int(input("Between 200X200(2), 400X400(4) and 600X600(6), what size you want: "))
+                break
+            except ValueError:
+                print("invalid input")
+#seeing if the number is an actual option to change
+        Image = Image.open(f"dragon {UserChoice}.jpg")
+        if SizeChoice == 2:
+            Image.thumbnail(x200)
+            Image.save('Size 200/'+Name+'200.jpg')
+            print("Saved in folder (Size 200)\n")
+            break
+        elif SizeChoice == 4:
+            Image.thumbnail(x400)
+            Image.save('Size 400/'+Name+'400.jpg')
+            print("Saved in folder (Size 400)\n")
+            break
+        elif SizeChoice == 6:
+            Image.thumbnail(x600)
+            Image.save('Size 600/'+Name+'600.jpg')
+            print("Saved in folder (Size 600)\n")
+            break
+        else:
+            print("Invalid input")
 
+#changing the type of photo fpg to png
+def Type():
+    Image = Image.open(f"dragon {UserChoice}.jpg")
+    fn, fext = os.path.splitext(f"dragon {UserChoice}.jpg")
+    Image.save('PNG/{}.png'.format(fn))
+    print("Saved in folder (PNG)\n")
+
+#rotating left in degrees
 def Rotation():
-    pass
+    while True:
+        try:
+            Degrees = int(input("Rotate left how many degrees: "))
+            break
+        except ValueError:
+            print("Invalid input\n")
+    Image = Image.open(f"dragon {UserChoice}.jpg")
+    Image.rotate(Degrees).save("Rotation/"+Name+"")
+    print("Saved in folder (Rotation)\n")
+
+#simple black and white photo change
 def Color():
-    pass
+    Image = Image.open(f"dragon {UserChoice}.jpg")
+    Image = Image.convert("L")
+    Image.save("BlackWhite/"+Name+"")
+    print("Saved in folder (BlackWhite)\n")
+
+#Adding blur to the image that the user can input
 def Transparency():
-    pass 
-Change = ""
-while Change != "q":
+    while True:
+        try:
+            BlurAmount = float(input("How much would you like to blur (Choose a number)?: "))
+            break
+        except ValueError:
+            print("Invalid input\n")
+    Image = Image.open(f"dragon {UserChoice}.jpg") 
+    im1 = Image.filter(ImageFilter.GaussianBlur(BlurAmount))
+    im1.save("Blur/'+Name+")
+    print("Saved in folder (Blur)\n")
+
+#Technically the start of the code
+#seeing what image they want to change
+while True:
     UserChoice = int(input("What dragon image do you want (1-10): "))
     if UserChoice > 0 or UserChoice < 10:
         break
     else:
         print("Invalid Input")
 RandomImage = Image.open(f"dragon {UserChoice}.jpg")
+Name = (f"dragon {UserChoice}.jpg")
 RandomImage.show()
-while Change != "q":
-    Change = input("What would you like to change anything about this image (size, type, rotation, color, transparency) or (q) to quit: ").lower()
-    if Change == "size":
-        Size()
-    elif Change == "type":
-        Type(RandomImage)
-    elif Change == "rotation":
-        Rotation()
-    elif Change == "color":
-        Color()
-    elif Change == "transparency":
-        Transparency()
+Modes()
