@@ -1,17 +1,18 @@
 """
 1) 3-5 Sentences of how the overall goal of the script
-The overall goal of this project scrpit is to teach how to use the PIL/pillow library to alter certain images.
+The overall goal of this project scrpit is to teach how to use the PIL/pillow library to alter certain Ims.
 It allows us to practive the different uses of imported libraries and how they can make our lives a lot easier for the future.
-It'll help prepare us for the next project which will be usinging those altered images to make a 2D game
+It'll help prepare us for the next project which will be usinging those altered Ims to make a 2D game
 
 2) Point form layout of the structure of the code in plain English
-- find the images we want to use
-- define all the different ways they can change the picture/images
+- find the Ims we want to use
+- define all the different ways they can change the picture/Ims
 - create the initial layout to the logic of the program
 - insert variables into the logic
 
 
 """
+
 from PIL import Image, ImageFilter
 import os, sys, glob
 
@@ -19,13 +20,13 @@ import os, sys, glob
 #Basically seeing what they want to do or if they want to quit
 def Modes():
     while True:
-        Mode = input("would you like to edit image all at once(1), one specific thing(2) or (q) to quit: ")
+        Mode = input("Would you like to edit image all at once(1), one specific thing(2), open all images(3) or (q) to quit: ")
         if Mode == "1":
             Everything()
-            break
         elif Mode == "2":
             Options()
-            break
+        elif Mode == "3":
+            Open()
         elif Mode == "q":
             quit()
         else:
@@ -180,6 +181,21 @@ def Transparency():
     OtherImage = Im.filter(ImageFilter.GaussianBlur(BlurAmount))
     OtherImage.save("Blur/"+Name+"")
     print("Saved in folder (Blur)\n")
+
+def Open():
+    FolderList = ["Size 200", "Size 400", "Size 600", "PNG", "Rotation", "BlackWhite", "Blur"]
+    for i in FolderList:
+        try:
+            images = os.listdir(i)
+            print(f"Image in the {i} Directory are: ")
+            print (images)
+            print("")
+            All = Image.open(f"{i}\{images}")
+            print(f"{i}\{images}")
+            All.show()
+            
+        except:
+            pass
 
 #Technically the start of the code
 #seeing what image they want to change
