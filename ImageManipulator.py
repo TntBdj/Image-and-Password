@@ -13,10 +13,7 @@ It'll help prepare us for the next project which will be usinging those altered 
 
 """
 from PIL import Image, ImageFilter
-import os, sys, Name
-x200 = (200, 200)
-x400 = (400, 400)
-x600 = (600, 600)
+import os, sys, glob
 
 #The function that calls all functions HAHAHH 
 #Basically seeing what they want to do or if they want to quit
@@ -27,13 +24,12 @@ def Modes():
             Everything()
             break
         elif Mode == "2":
-            Options
+            Options()
             break
         elif Mode == "q":
             quit()
         else:
             print("invalid input")
-
 
 #Me trying the bonus
 def Everything():
@@ -46,20 +42,20 @@ def Everything():
                     break
                 except ValueError:
                     print("invalid input")
-            Image = Image.open(f"dragon {UserChoice}.jpg")
+            Im = Image.open(f"dragon {UserChoice}.jpg")
             if SizeChoice == 2:
-                Image.thumbnail(x200)
+                Im.thumbnail(x200)
                 break
             elif SizeChoice == 4:
-                Image.thumbnail(x400)
+                Im.thumbnail(x400)
                 break
             elif SizeChoice == 6:
-                Image.thumbnail(x600)
+                Im.thumbnail(x600)
                 break
             else:
                 print("Invalid input")
         elif EveryOption == "type":
-            Image = Image.open(f"dragon {UserChoice}.jpg")
+            Im = Image.open(f"dragon {UserChoice}.jpg")
             fn, fext = os.path.splitext(f"dragon {UserChoice}.jpg")
         elif EveryOption == "rotation":
             Rotation()
@@ -72,7 +68,7 @@ def Everything():
         else:
             print("Invalid input")
 
-#All the options to alter images with functions of each options to make it more organized
+#All the options to alter Ims with functions of each options to make it more organized
 def Options():
     while True:
         Change = input("What would you like to change anything about this image (size, type, rotation, color, transparency) or (n) for nothing: ").lower()
@@ -93,6 +89,9 @@ def Options():
 
 #changine the size
 def Size():
+    x200 = (200, 200)
+    x400 = (400, 400)
+    x600 = (600, 600)
     while True:
         while True:
 #making sure its a number
@@ -102,20 +101,26 @@ def Size():
             except ValueError:
                 print("invalid input")
 #seeing if the number is an actual option to change
-        Image = Image.open(f"dragon {UserChoice}.jpg")
+        try:
+            os.mkdir("Size 200")
+            os.mkdir("Size 400")
+            os.mkdir("Size 600")
+        except:
+            pass
+        Im = Image.open(f"dragon {UserChoice}.jpg")
         if SizeChoice == 2:
-            Image.thumbnail(x200)
-            Image.save('Size 200/'+Name+'200.jpg')
+            Im.thumbnail(x200)
+            Im.save('Size 200/'+Name+'200.jpg')
             print("Saved in folder (Size 200)\n")
             break
         elif SizeChoice == 4:
-            Image.thumbnail(x400)
-            Image.save('Size 400/'+Name+'400.jpg')
+            Im.thumbnail(x400)
+            Im.save('Size 400/'+Name+'400.jpg')
             print("Saved in folder (Size 400)\n")
             break
         elif SizeChoice == 6:
-            Image.thumbnail(x600)
-            Image.save('Size 600/'+Name+'600.jpg')
+            Im.thumbnail(x600)
+            Im.save('Size 600/'+Name+'600.jpg')
             print("Saved in folder (Size 600)\n")
             break
         else:
@@ -123,41 +128,57 @@ def Size():
 
 #changing the type of photo fpg to png
 def Type():
-    Image = Image.open(f"dragon {UserChoice}.jpg")
+    try:
+        os.mkdir("PNG")
+    except:
+        pass
+    Im = Image.open(f"dragon {UserChoice}.jpg")
     fn, fext = os.path.splitext(f"dragon {UserChoice}.jpg")
-    Image.save('PNG/{}.png'.format(fn))
+    Im.save('PNG/{}.png'.format(fn))
     print("Saved in folder (PNG)\n")
 
 #rotating left in degrees
 def Rotation():
+    try:
+        os.mkdir("Rotation")
+    except:
+        pass
     while True:
         try:
             Degrees = int(input("Rotate left how many degrees: "))
             break
         except ValueError:
             print("Invalid input\n")
-    Image = Image.open(f"dragon {UserChoice}.jpg")
-    Image.rotate(Degrees).save("Rotation/"+Name+"")
+    Im = Image.open(f"dragon {UserChoice}.jpg")
+    Im.rotate(Degrees).save("Rotation/"+Name+"")
     print("Saved in folder (Rotation)\n")
 
 #simple black and white photo change
 def Color():
-    Image = Image.open(f"dragon {UserChoice}.jpg")
-    Image = Image.convert("L")
-    Image.save("BlackWhite/"+Name+"")
+    try:
+        os.mkdir("BlackWhite")
+    except:
+        pass
+    Im = Image.open(f"dragon {UserChoice}.jpg")
+    Im = Im.convert("L")
+    Im.save("BlackWhite/"+Name+"")
     print("Saved in folder (BlackWhite)\n")
 
-#Adding blur to the image that the user can input
+#Adding blur to the Im that the user can input
 def Transparency():
+    try:
+        os.mkdir("Blur")
+    except:
+        pass
     while True:
         try:
             BlurAmount = float(input("How much would you like to blur (Choose a number)?: "))
             break
         except ValueError:
             print("Invalid input\n")
-    Image = Image.open(f"dragon {UserChoice}.jpg") 
-    im1 = Image.filter(ImageFilter.GaussianBlur(BlurAmount))
-    im1.save("Blur/'+Name+")
+    Im = Image.open(f"dragon {UserChoice}.jpg")
+    OtherImage = Im.filter(ImageFilter.GaussianBlur(BlurAmount))
+    OtherImage.save("Blur/"+Name+"")
     print("Saved in folder (Blur)\n")
 
 #Technically the start of the code
@@ -168,7 +189,7 @@ while True:
         break
     else:
         print("Invalid Input")
-RandomImage = Image.open(f"dragon {UserChoice}.jpg")
+RandomIm = Image.open(f"dragon {UserChoice}.jpg")
 Name = (f"dragon {UserChoice}.jpg")
-RandomImage.show()
+RandomIm.show()
 Modes()
