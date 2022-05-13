@@ -20,59 +20,20 @@ import os, sys, glob
 #Basically seeing what they want to do or if they want to quit
 def Modes():
     while True:
-        Mode = input("Would you like to edit image all at once(1), one specific thing(2), open all images(3) or (q) to quit: ")
+        Mode = input("Would you like to edit each specific thing(1), open all images(2) or (q) to quit: ")
         if Mode == "1":
-            Everything()
-        elif Mode == "2":
             Options()
-        elif Mode == "3":
+        elif Mode == "2":
             Open()
         elif Mode == "q":
             quit()
         else:
             print("invalid input")
 
-#Me trying the bonus
-def Everything():
-    while True:
-        EveryOption = input("size, type, rotation, color, transparency: ")
-        if EveryOption == "size":
-            while True:
-                try:
-                    SizeChoice = int(input("Between 200X200(2), 400X400(4) and 600X600(6), what size you want: "))
-                    break
-                except ValueError:
-                    print("invalid input")
-            Im = Image.open(f"dragon {UserChoice}.jpg")
-            if SizeChoice == 2:
-                Im.thumbnail(x200)
-                break
-            elif SizeChoice == 4:
-                Im.thumbnail(x400)
-                break
-            elif SizeChoice == 6:
-                Im.thumbnail(x600)
-                break
-            else:
-                print("Invalid input")
-        elif EveryOption == "type":
-            Im = Image.open(f"dragon {UserChoice}.jpg")
-            fn, fext = os.path.splitext(f"dragon {UserChoice}.jpg")
-        elif EveryOption == "rotation":
-            Rotation()
-        elif EveryOption == "color":
-            Color()
-        elif EveryOption == "transparency":
-            Transparency()
-        elif EveryOption == "n":
-            break
-        else:
-            print("Invalid input")
-
-#All the options to alter Ims with functions of each options to make it more organized
+#All the options to alter images with functions of each options to make it more organized
 def Options():
     while True:
-        Change = input("What would you like to change anything about this image (size, type, rotation, color, transparency) or (n) for nothing: ").lower()
+        Change = input("What would you like to change anything about this image (size, type, rotation, color, transparency) or (f) if you're finished with this image: ").lower()
         if Change == "size":
             Size()
         elif Change == "type":
@@ -83,7 +44,7 @@ def Options():
             Color()
         elif Change == "transparency":
             Transparency()
-        elif Change == "n":
+        elif Change == "f":
             break
         else:
             print("Invalid input")
@@ -187,13 +148,10 @@ def Open():
     for i in FolderList:
         try:
             images = os.listdir(i)
-            print(f"Image in the {i} Directory are: ")
-            print (images)
-            print("")
-            All = Image.open(f"{i}\{images}")
-            print(f"{i}\{images}")
-            All.show()
-            
+            for l in images:
+                print(l)
+                AllImages = Image.open(f"{i}\{l}")
+                AllImages.show()
         except:
             pass
 
