@@ -20,10 +20,12 @@ import os, sys, glob
 #Basically seeing what they want to do or if they want to quit
 def Modes():
     while True:
-        Mode = input("Would you like to edit each specific thing(1), open all images you have edited(2) or (q) to quit: ").lower()
+        Mode = input("Would you like to edit each specific thing(1), make multipule edits(2), open all images you have edited(3) or (q) to quit: ").lower()
         if Mode == "1":
             Options()
         elif Mode == "2":
+            EverythingChoice()
+        elif Mode == "3":
             Open()
         elif Mode == "q":
             quit()
@@ -48,6 +50,83 @@ def Options():
             break
         else:
             print("Invalid input")
+
+def EverythingChoice():
+        while True:
+            KeepEditing = input("Would you like to keep editing this image? (y/n): ").lower()
+            if KeepEditing == "y":
+                Everything()
+            elif KeepEditing == "n":
+                break
+            else:
+                print("Invalid imput")
+
+def Everything():
+    MultipuleMods = input("What modifications do you want to add to this image? (size, type, rotation, color, transparency): ").lower()
+    try:
+        os.mkdir("AllMods")
+        global UserChoice
+        Im = Image.open(f"dragon {UserChoice}.jpg")
+        Im.save(f'AllMods/dragon {UserChoice}.jpg')
+    except:
+        pass
+    Im = Image.open(f'AllMods/dragon {UserChoice}.jpg')
+    if MultipuleMods == "size":
+        x200 = (200, 200)
+        x400 = (400, 400)
+        x600 = (600, 600)
+        while True:
+            try:
+                SizeChoice = int(input("Between 200X200(2), 400X400(4) and 600X600(6), what size you want: "))
+                break
+            except ValueError:
+                print("invalid input")
+        while True:
+            if SizeChoice == 2:
+                Im.thumbnail(x200)
+                Im.save(f'AllMods/dragon {UserChoice}.jpg')
+                print("Saved image saved\n")
+                break
+            elif SizeChoice == 4:
+                Im.thumbnail(x400)
+                Im.save(f'AllMods/dragon {UserChoice}.jpg')
+                print("Saved image saved\n")
+                break
+            elif SizeChoice == 6:
+                Im.thumbnail(x600)
+                Im.save(f'AllMods/dragon {UserChoice}.jpg')
+                print("Saved image saved\n")
+                break
+            else:
+                print("Invalid input")
+    elif MultipuleMods == "type":
+        fn, fext = os.path.splitext(f"AllMods/dragon {UserChoice}.jpg")
+        Im.save('AllMods/dragon {}.png'.format(fn))
+        print("Saved image saved\n")
+    
+    elif MultipuleMods == "Rotation":
+        while True:
+            try:
+                Degrees = int(input("Rotate left how many degrees: "))
+                break
+            except ValueError:
+                print("Invalid input\n")
+        Im.rotate(Degrees).save(f'AllMods/dragon {UserChoice}.jpg')
+        print("Saved image saved\n")
+    
+    elif MultipuleMods == "color":
+        Im = Im.convert("L").save(f'AllMods/dragon {UserChoice}.jpg')
+        print("Saved image saved\n")
+
+    elif MultipuleMods == "Transparency":
+        while True:
+            try:
+                BlurAmount = float(input("How much would you like to blur (Choose a number)?: "))
+                break
+            except ValueError:
+                print("Invalid input\n")
+        Im = Im.filter(ImageFilter.GaussianBlur(BlurAmount)).save(f'AllMods/dragon {UserChoice}.jpg')
+        print("Saved image saved\n")
 
 #changine the size
 def Size():
@@ -144,7 +223,7 @@ def Transparency():
     print("Saved in folder (Blur)\n")
 
 def Open():
-    FolderList = ["Size 200", "Size 400", "Size 600", "PNG", "Rotation", "BlackWhite", "Blur"]
+    FolderList = ["Size 200", "Size 400", "Size 600", "PNG", "Rotation", "BlackWhite", "Blur", "AllMods"]
     for i in FolderList:
         try:
             images = os.listdir(i)
