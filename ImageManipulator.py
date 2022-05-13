@@ -20,7 +20,7 @@ import os, sys, glob
 #Basically seeing what they want to do or if they want to quit
 def Modes():
     while True:
-        Mode = input("Would you like to edit each specific thing(1), open all images(2) or (q) to quit: ")
+        Mode = input("Would you like to edit each specific thing(1), open all images you have edited(2) or (q) to quit: ").lower()
         if Mode == "1":
             Options()
         elif Mode == "2":
@@ -154,6 +154,7 @@ def Open():
                 AllImages.show()
         except:
             pass
+    print("all the edited images have been shown")
 
 #Technically the start of the code
 #seeing what image they want to change
